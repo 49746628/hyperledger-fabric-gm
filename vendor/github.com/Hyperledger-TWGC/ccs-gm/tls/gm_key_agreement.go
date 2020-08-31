@@ -311,7 +311,13 @@ func (ka *eccKeyAgreementGM) generateServerKeyExchange(config *Config, signCert,
 	clientHello *clientHelloMsg, hello *serverHelloMsg) (*serverKeyExchangeMsg, error) {
 	// mod by syl only one cert
 	//digest := ka.hashForServerKeyExchange(clientHello.random, hello.random, cert.Certificate[1])
-	digest := ka.hashForServerKeyExchange(clientHello.random, hello.random, cipherCert.Certificate[0])
+	var cipherCertBytes []byte
+	if cipherCert != nil{
+		cipherCertBytes = cipherCert.Certificate[0]
+	}else{
+		cipherCertBytes = signCert.Certificate[0]
+	}
+	digest := ka.hashForServerKeyExchange(clientHello.random, hello.random, cipherCertBytes)
 
 	priv, ok := signCert.PrivateKey.(crypto.Signer)
 	if !ok {

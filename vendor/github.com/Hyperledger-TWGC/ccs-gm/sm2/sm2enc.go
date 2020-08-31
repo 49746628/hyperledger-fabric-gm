@@ -11,6 +11,7 @@ import (
 	"io"
 	"math"
 	"math/big"
+	"crypto"
 
 	"github.com/Hyperledger-TWGC/ccs-gm/sm3"
 )
@@ -115,6 +116,10 @@ regen:
 	c3 = h[:]
 
 	return x1, y1, t, c3, nil
+}
+
+func (key *PrivateKey) Decrypt(rand io.Reader, msg []byte, opts crypto.DecrypterOpts) (plaintext []byte, err error) {
+	return Decrypt(msg, key)
 }
 
 func Decrypt(c []byte, key *PrivateKey) ([]byte, error) {

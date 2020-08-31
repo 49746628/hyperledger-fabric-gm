@@ -69,6 +69,37 @@ func MarshalECPrivateKey(key interface{}) ([]byte, error) {
 	})
 }
 
+// marshalECPrivateKey marshals an EC private key into ASN.1, DER format and
+// sets the curve ID to the given OID, or omits it if OID is nil.
+func marshalECPrivateKeyWithOID(key interface{}, oid asn1.ObjectIdentifier) ([]byte, error) {
+	var curve elliptic.Curve
+	var x, y *big.Int
+	var privateKeyBytes []byte
+
+	switch key := key.(type) {
+	case *ecdsa.PrivateKey:
+		privateKeyBytes = key.D.Bytes()
+		curve = key.Curve
+		x = key.X
+		y = key.Y
+	case *sm2.PrivateKey:
+		privateKeyBytes = key.D.Bytes()
+		curve = key.Curve
+		x = key.X
+		y = key.Y
+	}
+
+	paddedPrivateKey := make([]byte, (curve.Params().N.BitLen()+7)/8)
+	copy(paddedPrivateKey[len(paddedPrivateKey)-len(privateKeyBytes):], privateKeyBytes)
+
+	return asn1.Marshal(ecPrivateKey{
+		Version:       1,
+		PrivateKey:    paddedPrivateKey,
+		NamedCurveOID: oid,
+		PublicKey:     asn1.BitString{Bytes: elliptic.Marshal(curve, x, y)},
+	})
+}
+
 // parseECPrivateKey parses an ASN.1 Elliptic Curve Private Key Structure.
 // The OID for the named curve may be provided from another source (such as
 // the PKCS8 container) - if it is provided then use this instead of the OID
