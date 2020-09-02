@@ -1,7 +1,7 @@
 package sarama
 
 import (
-	"crypto/tls"
+	//"crypto/tls"
 	"encoding/binary"
 	"fmt"
 	"io"
@@ -11,6 +11,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"github.com/rcrowley/go-metrics"
 )
 
