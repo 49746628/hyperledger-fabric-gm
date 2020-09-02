@@ -7,8 +7,8 @@ SPDX-License-Identifier: Apache-2.0
 package comm_test
 
 import (
-	"crypto/tls"
-	"crypto/x509"
+	//"crypto/tls"
+	//"crypto/x509"
 	"io/ioutil"
 	"net"
 	"path/filepath"
@@ -17,6 +17,9 @@ import (
 
 	"github.com/hyperledger/fabric/common/flogging/floggingtest"
 	"github.com/hyperledger/fabric/core/comm"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/stretchr/testify/assert"
 )
 

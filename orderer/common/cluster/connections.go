@@ -8,11 +8,13 @@ package cluster
 
 import (
 	"bytes"
-	"crypto/x509"
+	//"crypto/x509"
 	"sync"
 	"sync/atomic"
 
 	"github.com/hyperledger/fabric/common/metrics"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 )

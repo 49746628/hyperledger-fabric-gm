@@ -8,7 +8,7 @@ package msp
 
 import (
 	"bytes"
-	"crypto/x509"
+	//"crypto/x509"
 	"crypto/x509/pkix"
 	"fmt"
 	"time"
@@ -16,6 +16,8 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric/bccsp"
 	m "github.com/hyperledger/fabric/protos/msp"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	errors "github.com/pkg/errors"
 )
 

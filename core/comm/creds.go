@@ -8,13 +8,16 @@ package comm
 
 import (
 	"context"
-	"crypto/tls"
-	"crypto/x509"
+	//"crypto/tls"
+	//"crypto/x509"
 	"errors"
 	"net"
 	"sync"
 
 	"github.com/hyperledger/fabric/common/flogging"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"google.golang.org/grpc/credentials"
 )
 
@@ -42,7 +45,12 @@ func NewServerTransportCredentials(
 	// clone the tls.Config which allows us to update it dynamically
 	serverConfig.config.NextProtos = alpnProtoStr
 	// override TLS version and ensure it is 1.2
-	serverConfig.config.MinVersion = tls.VersionTLS12
+	// GMTLS support
+	if serverConfig.config.GMSupport != nil {
+		serverConfig.config.MinVersion = tls.VersionGMSSL
+	} else {
+		serverConfig.config.MinVersion = tls.VersionTLS12
+	}
 	serverConfig.config.MaxVersion = tls.VersionTLS12
 	return &serverCreds{
 		serverConfig: serverConfig,

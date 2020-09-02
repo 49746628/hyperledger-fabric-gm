@@ -11,12 +11,15 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
-	"crypto/tls"
-	"crypto/x509"
+	//"crypto/tls"
+	//"crypto/x509"
 	"encoding/pem"
 	"math/big"
 
 	"github.com/hyperledger/fabric/common/util"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/peer"
 )

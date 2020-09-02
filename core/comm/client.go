@@ -8,10 +8,15 @@ package comm
 
 import (
 	"context"
-	"crypto/tls"
-	"crypto/x509"
+	"encoding/pem"
+	"github.com/Hyperledger-TWGC/ccs-gm/sm2"
+
+	//"crypto/tls"
+	//"crypto/x509"
 	"time"
 
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/keepalive"
@@ -85,6 +90,20 @@ func (client *GRPCClient) parseSecureOptions(opts *SecureOptions) error {
 				commLogger.Debugf("error adding root certificate: %v", err)
 				return errors.WithMessage(err,
 					"error adding root certificate")
+			}
+		}
+
+		// add by suyunlong, client support GMT0024
+		block, _ := pem.Decode(opts.ServerRootCAs[0])
+		if block != nil {
+			caCert, err := x509.ParseCertificate(block.Bytes)
+			if err != nil {
+				return errors.WithMessage(err, "FMT0024, parse certificate error")
+			}
+			_, ok := caCert.PublicKey.(*sm2.PublicKey)
+			if ok {
+				client.tlsConfig.GMSupport = &tls.GMSupport{}
+				client.tlsConfig.MinVersion = 0
 			}
 		}
 	}

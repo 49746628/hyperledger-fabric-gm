@@ -9,7 +9,7 @@ package cluster
 import (
 	"bytes"
 	"context"
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/pem"
 	"fmt"
 	"sync"
@@ -20,6 +20,8 @@ import (
 	"github.com/hyperledger/fabric/common/flogging"
 	"github.com/hyperledger/fabric/core/comm"
 	"github.com/hyperledger/fabric/protos/orderer"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"

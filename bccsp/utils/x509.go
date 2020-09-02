@@ -17,7 +17,8 @@ limitations under the License.
 package utils
 
 import (
-	"crypto/x509"
+	//"crypto/x509"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 )
 
 // DERToX509Certificate converts der to x509

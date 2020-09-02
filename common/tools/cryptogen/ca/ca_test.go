@@ -7,12 +7,13 @@ package ca_test
 
 import (
 	"crypto/ecdsa"
-	"crypto/x509"
+	//"crypto/x509"
 	"net"
 	"os"
 	"path/filepath"
 	"testing"
 
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/hyperledger/fabric/common/tools/cryptogen/ca"
 	"github.com/hyperledger/fabric/common/tools/cryptogen/csp"
 	"github.com/stretchr/testify/assert"
@@ -39,22 +40,24 @@ var testDir = filepath.Join(os.TempDir(), "ca-test")
 func TestLoadCertificateECDSA(t *testing.T) {
 	caDir := filepath.Join(testDir, "ca")
 	certDir := filepath.Join(testDir, "certs")
+
+	useGm := false
 	// generate private key
-	priv, _, err := csp.GeneratePrivateKey(certDir)
+	priv, _, err := csp.GeneratePrivateKey(certDir, useGm)
 	assert.NoError(t, err, "Failed to generate signed certificate")
 
 	// get EC public key
-	ecPubKey, err := csp.GetECPublicKey(priv)
+	ecPubKey, err := csp.GetPublicKey(priv)
 	assert.NoError(t, err, "Failed to generate signed certificate")
 	assert.NotNil(t, ecPubKey, "Failed to generate signed certificate")
 
 	// create our CA
-	rootCA, err := ca.NewCA(caDir, testCA3Name, testCA3Name, testCountry, testProvince, testLocality, testOrganizationalUnit, testStreetAddress, testPostalCode)
+	rootCA, err := ca.NewCA(caDir, testCA3Name, testCA3Name, testCountry, testProvince, testLocality, testOrganizationalUnit, testStreetAddress, testPostalCode, useGm)
 	assert.NoError(t, err, "Error generating CA")
 
 	cert, err := rootCA.SignCertificate(certDir, testName3, nil, nil, ecPubKey,
 		x509.KeyUsageDigitalSignature|x509.KeyUsageKeyEncipherment,
-		[]x509.ExtKeyUsage{x509.ExtKeyUsageAny})
+		[]x509.ExtKeyUsage{x509.ExtKeyUsageAny}, )
 	assert.NoError(t, err, "Failed to generate signed certificate")
 	// KeyUsage should be x509.KeyUsageDigitalSignature | x509.KeyUsageKeyEncipherment
 	assert.Equal(t, x509.KeyUsageDigitalSignature|x509.KeyUsageKeyEncipherment,
@@ -69,9 +72,9 @@ func TestLoadCertificateECDSA(t *testing.T) {
 }
 
 func TestNewCA(t *testing.T) {
-
+	useGm := false
 	caDir := filepath.Join(testDir, "ca")
-	rootCA, err := ca.NewCA(caDir, testCAName, testCAName, testCountry, testProvince, testLocality, testOrganizationalUnit, testStreetAddress, testPostalCode)
+	rootCA, err := ca.NewCA(caDir, testCAName, testCAName, testCountry, testProvince, testLocality, testOrganizationalUnit, testStreetAddress, testPostalCode, useGm)
 	assert.NoError(t, err, "Error generating CA")
 	assert.NotNil(t, rootCA, "Failed to return CA")
 	assert.NotNil(t, rootCA.Signer,
@@ -103,19 +106,20 @@ func TestNewCA(t *testing.T) {
 
 func TestGenerateSignCertificate(t *testing.T) {
 
+	useGm := false
 	caDir := filepath.Join(testDir, "ca")
 	certDir := filepath.Join(testDir, "certs")
 	// generate private key
-	priv, _, err := csp.GeneratePrivateKey(certDir)
+	priv, _, err := csp.GeneratePrivateKey(certDir, false)
 	assert.NoError(t, err, "Failed to generate signed certificate")
 
 	// get EC public key
-	ecPubKey, err := csp.GetECPublicKey(priv)
+	ecPubKey, err := csp.GetPublicKey(priv)
 	assert.NoError(t, err, "Failed to generate signed certificate")
 	assert.NotNil(t, ecPubKey, "Failed to generate signed certificate")
 
 	// create our CA
-	rootCA, err := ca.NewCA(caDir, testCA2Name, testCA2Name, testCountry, testProvince, testLocality, testOrganizationalUnit, testStreetAddress, testPostalCode)
+	rootCA, err := ca.NewCA(caDir, testCA2Name, testCA2Name, testCountry, testProvince, testLocality, testOrganizationalUnit, testStreetAddress, testPostalCode, useGm)
 	assert.NoError(t, err, "Error generating CA")
 
 	cert, err := rootCA.SignCertificate(certDir, testName, nil, nil, ecPubKey,

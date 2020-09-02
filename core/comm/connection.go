@@ -8,8 +8,8 @@ package comm
 
 import (
 	"context"
-	"crypto/tls"
-	"crypto/x509"
+	//"crypto/tls"
+	//"crypto/x509"
 	"encoding/base64"
 	"encoding/pem"
 	"fmt"
@@ -20,6 +20,9 @@ import (
 
 	"github.com/hyperledger/fabric/common/flogging"
 	"github.com/hyperledger/fabric/core/config"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )

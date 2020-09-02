@@ -9,8 +9,8 @@ package comm_test
 import (
 	"bytes"
 	"context"
-	"crypto/tls"
-	"crypto/x509"
+	//"crypto/tls"
+	//"crypto/x509"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -25,6 +25,9 @@ import (
 	"github.com/hyperledger/fabric/common/flogging"
 	"github.com/hyperledger/fabric/core/comm"
 	testpb "github.com/hyperledger/fabric/core/comm/testdata/grpc"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"

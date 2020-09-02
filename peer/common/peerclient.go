@@ -8,7 +8,7 @@ package common
 
 import (
 	"context"
-	"crypto/tls"
+	//"crypto/tls"
 	"fmt"
 	"io/ioutil"
 	"time"
@@ -17,6 +17,8 @@ import (
 	"github.com/hyperledger/fabric/core/config"
 	"github.com/hyperledger/fabric/peer/common/api"
 	pb "github.com/hyperledger/fabric/protos/peer"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 )

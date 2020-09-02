@@ -9,7 +9,7 @@ package comm
 import (
 	"bytes"
 	"context"
-	"crypto/tls"
+	//"crypto/tls"
 	"encoding/hex"
 	"fmt"
 	"reflect"
@@ -23,6 +23,8 @@ import (
 	"github.com/hyperledger/fabric/gossip/metrics"
 	"github.com/hyperledger/fabric/gossip/util"
 	proto "github.com/hyperledger/fabric/protos/gossip"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/peer"

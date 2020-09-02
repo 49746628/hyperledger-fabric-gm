@@ -8,13 +8,14 @@ package msp
 
 import (
 	"bytes"
-	"crypto/x509"
+	//"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/asn1"
 	"math/big"
 	"reflect"
 	"time"
 
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/pkg/errors"
 )
 

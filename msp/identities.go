@@ -9,7 +9,7 @@ package msp
 import (
 	"crypto"
 	"crypto/rand"
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/hex"
 	"encoding/pem"
 	"fmt"
@@ -19,6 +19,7 @@ import (
 	"github.com/hyperledger/fabric/bccsp"
 	"github.com/hyperledger/fabric/common/flogging"
 	"github.com/hyperledger/fabric/protos/msp"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/pkg/errors"
 	"go.uber.org/zap/zapcore"
 )

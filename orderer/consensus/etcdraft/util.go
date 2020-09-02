@@ -8,7 +8,7 @@ package etcdraft
 
 import (
 	"bytes"
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/pem"
 	"fmt"
 	"sync"
@@ -26,6 +26,8 @@ import (
 	"github.com/hyperledger/fabric/protos/orderer"
 	"github.com/hyperledger/fabric/protos/orderer/etcdraft"
 	"github.com/hyperledger/fabric/protos/utils"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/pkg/errors"
 	"go.etcd.io/etcd/raft"
 	"go.etcd.io/etcd/raft/raftpb"

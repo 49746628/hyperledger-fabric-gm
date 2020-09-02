@@ -9,7 +9,7 @@ package msp
 
 import (
 	"crypto/ecdsa"
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/asn1"
 	"encoding/hex"
 	"encoding/pem"
@@ -28,6 +28,8 @@ import (
 	"github.com/hyperledger/fabric/bccsp/utils"
 	"github.com/hyperledger/fabric/core/config/configtest"
 	"github.com/hyperledger/fabric/protos/msp"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -22,13 +22,15 @@ limitations under the License.
 package attrmgr
 
 import (
-	"crypto/x509"
+	//"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/asn1"
 	"encoding/json"
 	"fmt"
 
 	"github.com/pkg/errors"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 )
 
 var (

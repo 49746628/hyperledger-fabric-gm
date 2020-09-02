@@ -7,11 +7,13 @@ SPDX-License-Identifier: Apache-2.0
 package kafka
 
 import (
-	"crypto/tls"
-	"crypto/x509"
+	//"crypto/tls"
+	//"crypto/x509"
 
 	localconfig "github.com/hyperledger/fabric/orderer/common/localconfig"
 
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/Shopify/sarama"
 )
 

@@ -8,7 +8,7 @@ package common
 
 import (
 	"context"
-	"crypto/tls"
+	//"crypto/tls"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -29,6 +29,8 @@ import (
 	pcommon "github.com/hyperledger/fabric/protos/common"
 	pb "github.com/hyperledger/fabric/protos/peer"
 	putils "github.com/hyperledger/fabric/protos/utils"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"

@@ -8,8 +8,8 @@ package comm
 
 import (
 	"context"
-	"crypto/tls"
-	"crypto/x509"
+	//"crypto/tls"
+	//"crypto/x509"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -19,6 +19,9 @@ import (
 	"time"
 
 	testpb "github.com/hyperledger/fabric/core/comm/testdata/grpc"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"

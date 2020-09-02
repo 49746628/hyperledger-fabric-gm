@@ -7,11 +7,13 @@ package common
 
 import (
 	"context"
-	"crypto/tls"
+	//"crypto/tls"
 	"fmt"
 
 	"github.com/hyperledger/fabric/core/comm"
 	ab "github.com/hyperledger/fabric/protos/orderer"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"github.com/pkg/errors"
 )
 

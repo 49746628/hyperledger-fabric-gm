@@ -7,8 +7,8 @@ package csp
 
 import (
 	"crypto"
-	"crypto/ecdsa"
-	"crypto/x509"
+	//"crypto/ecdsa"
+	//"crypto/x509"
 	"encoding/pem"
 	"io/ioutil"
 	"os"
@@ -19,6 +19,8 @@ import (
 	"github.com/hyperledger/fabric/bccsp/factory"
 	"github.com/hyperledger/fabric/bccsp/signer"
 	"github.com/pkg/errors"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 )
 
 // LoadPrivateKey loads a private key from file in keystorePath
@@ -79,7 +81,7 @@ func LoadPrivateKey(keystorePath string) (bccsp.Key, crypto.Signer, error) {
 }
 
 // GeneratePrivateKey creates a private key and stores it in keystorePath
-func GeneratePrivateKey(keystorePath string) (bccsp.Key,
+func GeneratePrivateKey(keystorePath string, useGm bool) (bccsp.Key,
 	crypto.Signer, error) {
 
 	var err error
@@ -100,7 +102,11 @@ func GeneratePrivateKey(keystorePath string) (bccsp.Key,
 	csp, err := factory.GetBCCSPFromOpts(opts)
 	if err == nil {
 		// generate a key
-		priv, err = csp.KeyGen(&bccsp.ECDSAP256KeyGenOpts{Temporary: false})
+		if useGm {
+			priv, err = csp.KeyGen(&bccsp.SM2KeyGenOpts{Temporary: false})
+		} else {
+			priv, err = csp.KeyGen(&bccsp.ECDSAP256KeyGenOpts{Temporary: false})
+		}
 		if err == nil {
 			// create a crypto.Signer
 			s, err = signer.New(csp, priv)
@@ -109,7 +115,7 @@ func GeneratePrivateKey(keystorePath string) (bccsp.Key,
 	return priv, s, err
 }
 
-func GetECPublicKey(priv bccsp.Key) (*ecdsa.PublicKey, error) {
+func GetPublicKey(priv bccsp.Key) (interface{}, error) {
 
 	// get the public key
 	pubKey, err := priv.PublicKey()
@@ -122,9 +128,11 @@ func GetECPublicKey(priv bccsp.Key) (*ecdsa.PublicKey, error) {
 		return nil, err
 	}
 	// unmarshal using pkix
-	ecPubKey, err := x509.ParsePKIXPublicKey(pubKeyBytes)
-	if err != nil {
-		return nil, err
-	}
-	return ecPubKey.(*ecdsa.PublicKey), nil
+	return x509.ParsePKIXPublicKey(pubKeyBytes)
+	// unmarshal using pkix
+	//ecPubKey, err := x509.ParsePKIXPublicKey(pubKeyBytes)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//return ecPubKey.(*ecdsa.PublicKey), nil
 }

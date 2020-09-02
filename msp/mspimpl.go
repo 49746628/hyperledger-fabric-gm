@@ -8,7 +8,7 @@ package msp
 
 import (
 	"bytes"
-	"crypto/x509"
+	//"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/hex"
 	"encoding/pem"
@@ -20,6 +20,8 @@ import (
 	"github.com/hyperledger/fabric/bccsp/signer"
 	"github.com/hyperledger/fabric/bccsp/utils"
 	m "github.com/hyperledger/fabric/protos/msp"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/pkg/errors"
 )
 

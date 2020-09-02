@@ -7,12 +7,15 @@ SPDX-License-Identifier: Apache-2.0
 package comm
 
 import (
-	"crypto/tls"
-	"crypto/x509"
+	//"crypto/tls"
+	//"crypto/x509"
 	"time"
 
 	"github.com/hyperledger/fabric/common/flogging"
 	"github.com/hyperledger/fabric/common/metrics"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/keepalive"
 )
@@ -38,6 +41,11 @@ var (
 		tls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
 		tls.TLS_RSA_WITH_AES_128_GCM_SHA256,
 		tls.TLS_RSA_WITH_AES_256_GCM_SHA384,
+	}
+
+	// strong GM TLS cipher suites
+	DefaultGMTLSCipherSuites = []uint16{
+		tls.GMTLS_SM2_WITH_SM4_SM3,
 	}
 	// default connection timeout
 	DefaultConnectionTimeout = 5 * time.Second
