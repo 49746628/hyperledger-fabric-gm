@@ -17,9 +17,8 @@ import (
 	"github.com/hyperledger/fabric/common/tools/cryptogen/ca"
 	"github.com/hyperledger/fabric/common/tools/cryptogen/csp"
 	fabricmsp "github.com/hyperledger/fabric/msp"
-
-	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"gopkg.in/yaml.v2"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 )
 
 const (

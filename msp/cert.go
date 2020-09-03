@@ -28,7 +28,7 @@ import (
 	"time"
 
 	"github.com/hyperledger/fabric/bccsp/utils"
-	
+
 	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/pkg/errors"
 )

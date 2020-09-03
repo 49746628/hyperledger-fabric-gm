@@ -21,11 +21,13 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/sha256"
-	"crypto/x509"
+	//"crypto/x509"
 	"math/big"
 	"testing"
 
 	"github.com/hyperledger/fabric/bccsp/utils"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/stretchr/testify/assert"
 )
 

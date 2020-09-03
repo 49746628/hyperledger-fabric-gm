@@ -10,7 +10,7 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/sha256"
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/pem"
 	"math/big"
 
@@ -18,6 +18,8 @@ import (
 
 	"github.com/hyperledger/fabric/bccsp"
 	"github.com/hyperledger/fabric/bccsp/idemix/handlers/mock"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"

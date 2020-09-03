@@ -9,10 +9,12 @@ SPDX-License-Identifier: Apache-2.0
 package pkcs11
 
 import (
-	"crypto/x509"
+	//"crypto/x509"
 	"testing"
 
 	"github.com/hyperledger/fabric/bccsp"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -6,7 +6,7 @@ SPDX-License-Identifier: Apache-2.0
 package common_test
 
 import (
-	"crypto/tls"
+	//"crypto/tls"
 	"net"
 	"os"
 	"path/filepath"
@@ -14,6 +14,8 @@ import (
 	"time"
 
 	"github.com/hyperledger/fabric/peer/common"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 )

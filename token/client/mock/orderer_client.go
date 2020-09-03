@@ -3,10 +3,12 @@ package mock
 
 import (
 	"context"
-	"crypto/tls"
+	//"crypto/tls"
 	"sync"
 
 	"github.com/hyperledger/fabric/token/client"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"google.golang.org/grpc"
 )
 

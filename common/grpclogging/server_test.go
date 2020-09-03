@@ -8,8 +8,8 @@ package grpclogging_test
 
 import (
 	"context"
-	"crypto/tls"
-	"crypto/x509"
+	//"crypto/tls"
+	//"crypto/x509"
 	"errors"
 	"fmt"
 	"io"
@@ -20,6 +20,9 @@ import (
 	"github.com/hyperledger/fabric/common/grpclogging"
 	"github.com/hyperledger/fabric/common/grpclogging/fakes"
 	"github.com/hyperledger/fabric/common/grpclogging/testpb"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"go.uber.org/zap"

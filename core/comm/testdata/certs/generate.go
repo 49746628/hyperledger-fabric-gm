@@ -25,7 +25,7 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
-	"crypto/x509"
+	//"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/pem"
 	"flag"
@@ -34,6 +34,8 @@ import (
 	"net"
 	"os"
 	"time"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 )
 
 //command line flags

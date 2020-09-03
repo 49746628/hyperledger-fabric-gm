@@ -11,7 +11,7 @@ import (
 	"context"
 	"crypto/hmac"
 	"crypto/sha256"
-	"crypto/tls"
+	//"crypto/tls"
 	"errors"
 	"fmt"
 	"io"
@@ -35,6 +35,8 @@ import (
 	"github.com/hyperledger/fabric/gossip/mocks"
 	"github.com/hyperledger/fabric/gossip/util"
 	proto "github.com/hyperledger/fabric/protos/gossip"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"google.golang.org/grpc"

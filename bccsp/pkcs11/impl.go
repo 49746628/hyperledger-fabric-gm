@@ -9,12 +9,14 @@ package pkcs11
 import (
 	"crypto/ecdsa"
 	"crypto/rsa"
-	"crypto/x509"
+	//"crypto/x509"
 	"os"
 
 	"github.com/hyperledger/fabric/bccsp"
 	"github.com/hyperledger/fabric/bccsp/sw"
 	"github.com/hyperledger/fabric/common/flogging"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/miekg/pkcs11"
 	"github.com/pkg/errors"
 )

@@ -19,7 +19,7 @@ package sw
 import (
 	"crypto/rand"
 	"crypto/rsa"
-	"crypto/x509"
+	//"crypto/x509"
 	"errors"
 	"reflect"
 	"testing"
@@ -27,6 +27,8 @@ import (
 	mocks2 "github.com/hyperledger/fabric/bccsp/mocks"
 	"github.com/hyperledger/fabric/bccsp/sw/mocks"
 	"github.com/hyperledger/fabric/bccsp/utils"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/stretchr/testify/assert"
 )
 

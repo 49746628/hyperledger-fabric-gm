@@ -16,11 +16,13 @@ limitations under the License.
 package attrmgr_test
 
 import (
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/base64"
 	"testing"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim/ext/attrmgr"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/stretchr/testify/assert"
 )
 

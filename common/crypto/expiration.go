@@ -7,12 +7,14 @@ SPDX-License-Identifier: Apache-2.0
 package crypto
 
 import (
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/pem"
 	"time"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric/protos/msp"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 )
 
 // ExpiresAt returns when the given identity expires, or a zero time.Time

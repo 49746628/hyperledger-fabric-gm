@@ -25,9 +25,11 @@ import (
 	"encoding/pem"
 	"fmt"
 
-	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric/common/attrmgr"
 	"github.com/hyperledger/fabric/protos/msp"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
+	"github.com/golang/protobuf/proto"
 	"github.com/pkg/errors"
 )
 

@@ -7,8 +7,8 @@ SPDX-License-Identifier: Apache-2.0
 package operations_test
 
 import (
-	"crypto/tls"
-	"crypto/x509"
+	//"crypto/tls"
+	//"crypto/x509"
 	"io/ioutil"
 	"net/http"
 	"path/filepath"
@@ -16,6 +16,9 @@ import (
 
 	"github.com/hyperledger/fabric-lib-go/healthz"
 	"github.com/hyperledger/fabric/common/crypto/tlsgen"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

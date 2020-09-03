@@ -8,8 +8,8 @@ package tlsgen
 
 import (
 	"context"
-	"crypto/tls"
-	"crypto/x509"
+	//"crypto/tls"
+	//"crypto/x509"
 	"encoding/base64"
 	"fmt"
 	"math/rand"
@@ -17,19 +17,25 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )
 
 func createTLSService(t *testing.T, ca CA, host string) *grpc.Server {
-	keyPair, err := ca.NewServerCertKeyPair(host)
+	useGm := true
+	keyPair, err := ca.NewServerCertKeyPair(host, useGm)
 	cert, err := tls.X509KeyPair(keyPair.Cert, keyPair.Key)
 	assert.NoError(t, err)
 	tlsConf := &tls.Config{
 		Certificates: []tls.Certificate{cert},
 		ClientAuth:   tls.RequireAndVerifyClientCert,
 		ClientCAs:    x509.NewCertPool(),
+	}
+	if useGm {
+		tlsConf.GMSupport = &tls.GMSupport{}
 	}
 	tlsConf.ClientCAs.AppendCertsFromPEM(ca.CertBytes())
 	return grpc.NewServer(grpc.Creds(credentials.NewTLS(tlsConf)))
@@ -42,7 +48,8 @@ func TestTLSCA(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	randomPort := 1234 + rand.Intn(1234) // some random port
 
-	ca, err := NewCA()
+	useGm := true
+	ca, err := NewCA(useGm)
 	assert.NoError(t, err)
 	assert.NotNil(t, ca)
 
@@ -65,6 +72,10 @@ func TestTLSCA(t *testing.T) {
 			Certificates: []tls.Certificate{cert},
 			MaxVersion:   tls.VersionTLS12,
 		}
+		if useGm {
+			tlsCfg.MaxVersion = tls.VersionGMSSL
+			tlsCfg.GMSupport = &tls.GMSupport{}
+		}
 		tlsCfg.RootCAs.AppendCertsFromPEM(ca.CertBytes())
 		tlsOpts := grpc.WithTransportCredentials(credentials.NewTLS(tlsCfg))
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -79,14 +90,14 @@ func TestTLSCA(t *testing.T) {
 
 	// Good path - use a cert key pair generated from the CA
 	// that the TLS server started with
-	kp, err := ca.NewClientCertKeyPair()
+	kp, err := ca.NewClientCertKeyPair(useGm)
 	assert.NoError(t, err)
 	err = probeTLS(kp)
 	assert.NoError(t, err)
 
 	// Bad path - use a cert key pair generated from a foreign CA
-	foreignCA, _ := NewCA()
-	kp, err = foreignCA.NewClientCertKeyPair()
+	foreignCA, _ := NewCA(useGm)
+	kp, err = foreignCA.NewClientCertKeyPair(useGm)
 	assert.NoError(t, err)
 	err = probeTLS(kp)
 	assert.Error(t, err)

@@ -9,7 +9,7 @@ package signer
 import (
 	"crypto/ecdsa"
 	"crypto/rand"
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/asn1"
 	"encoding/pem"
 	"io/ioutil"
@@ -21,6 +21,8 @@ import (
 	"github.com/hyperledger/fabric/protos/common"
 	"github.com/hyperledger/fabric/protos/msp"
 	proto_utils "github.com/hyperledger/fabric/protos/utils"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/pkg/errors"
 )
 

@@ -7,7 +7,7 @@ SPDX-License-Identifier: Apache-2.0
 package cluster_test
 
 import (
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/pem"
 	"errors"
 	"io/ioutil"
@@ -34,6 +34,8 @@ import (
 	"github.com/hyperledger/fabric/protos/common"
 	"github.com/hyperledger/fabric/protos/msp"
 	"github.com/hyperledger/fabric/protos/utils"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"go.uber.org/zap"

@@ -18,13 +18,15 @@ package sw
 import (
 	"crypto/rsa"
 	"crypto/sha256"
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/asn1"
 	"errors"
 	"fmt"
 	"math/big"
 
 	"github.com/hyperledger/fabric/bccsp"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 )
 
 // rsaPublicKey reflects the ASN.1 structure of a PKCS#1 public key.

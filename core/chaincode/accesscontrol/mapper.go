@@ -21,7 +21,7 @@ var ttl = time.Minute * 10
 
 type certHash string
 
-type KeyGenFunc func() (*tlsgen.CertKeyPair, error)
+type KeyGenFunc func(useGm bool) (*tlsgen.CertKeyPair, error)
 
 type certMapper struct {
 	keyGen KeyGenFunc
@@ -58,7 +58,9 @@ func (r *certMapper) purge(hash certHash) {
 }
 
 func (r *certMapper) genCert(name string) (*tlsgen.CertKeyPair, error) {
-	keyPair, err := r.keyGen()
+	//TODO: 如何兼容
+	useGm := false
+	keyPair, err := r.keyGen(useGm)
 	if err != nil {
 		return nil, err
 	}

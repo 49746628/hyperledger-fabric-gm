@@ -9,7 +9,7 @@ package chaincode
 
 import (
 	"context"
-	"crypto/tls"
+	//"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -30,6 +30,8 @@ import (
 	common2 "github.com/hyperledger/fabric/protos/common"
 	pb "github.com/hyperledger/fabric/protos/peer"
 	"github.com/hyperledger/fabric/protos/utils"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	. "github.com/onsi/gomega"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"

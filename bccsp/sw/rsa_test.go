@@ -21,12 +21,14 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha256"
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/asn1"
 	"strings"
 	"testing"
 
 	"github.com/hyperledger/fabric/bccsp/mocks"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/stretchr/testify/assert"
 )
 

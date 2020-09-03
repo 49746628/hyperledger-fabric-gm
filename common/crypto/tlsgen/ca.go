@@ -8,7 +8,9 @@ package tlsgen
 
 import (
 	"crypto"
-	"crypto/x509"
+	//"crypto/x509"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 )
 
 // CertKeyPair denotes a TLS certificate and corresponding key,
@@ -32,23 +34,23 @@ type CA interface {
 	// newCertKeyPair returns a certificate and private key pair and nil,
 	// or nil, error in case of failure
 	// The certificate is signed by the CA and is used for TLS client authentication
-	NewClientCertKeyPair() (*CertKeyPair, error)
+	NewClientCertKeyPair(useGm bool) (*CertKeyPair, error)
 
 	// NewServerCertKeyPair returns a CertKeyPair and nil,
 	// with a given custom SAN.
 	// The certificate is signed by the CA.
 	// Returns nil, error in case of failure
-	NewServerCertKeyPair(host string) (*CertKeyPair, error)
+	NewServerCertKeyPair(host string, useGm bool) (*CertKeyPair, error)
 }
 
 type ca struct {
 	caCert *CertKeyPair
 }
 
-func NewCA() (CA, error) {
+func NewCA(useGm bool) (CA, error) {
 	c := &ca{}
 	var err error
-	c.caCert, err = newCertKeyPair(true, false, "", nil, nil)
+	c.caCert, err = newCertKeyPair(true, false, "", nil, nil, useGm)
 	if err != nil {
 		return nil, err
 	}
@@ -63,15 +65,15 @@ func (c *ca) CertBytes() []byte {
 // newClientCertKeyPair returns a certificate and private key pair and nil,
 // or nil, error in case of failure
 // The certificate is signed by the CA and is used as a client TLS certificate
-func (c *ca) NewClientCertKeyPair() (*CertKeyPair, error) {
-	return newCertKeyPair(false, false, "", c.caCert.Signer, c.caCert.TLSCert)
+func (c *ca) NewClientCertKeyPair(useGm bool) (*CertKeyPair, error) {
+	return newCertKeyPair(false, false, "", c.caCert.Signer, c.caCert.TLSCert, useGm)
 }
 
 // newServerCertKeyPair returns a certificate and private key pair and nil,
 // or nil, error in case of failure
 // The certificate is signed by the CA and is used as a server TLS certificate
-func (c *ca) NewServerCertKeyPair(host string) (*CertKeyPair, error) {
-	keypair, err := newCertKeyPair(false, true, host, c.caCert.Signer, c.caCert.TLSCert)
+func (c *ca) NewServerCertKeyPair(host string, useGm bool) (*CertKeyPair, error) {
+	keypair, err := newCertKeyPair(false, true, host, c.caCert.Signer, c.caCert.TLSCert, useGm)
 	if err != nil {
 		return nil, err
 	}

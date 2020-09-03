@@ -11,7 +11,7 @@ import (
 	"context"
 	"crypto/ecdsa"
 	"crypto/rand"
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/hex"
 	"encoding/pem"
 	"fmt"
@@ -54,6 +54,8 @@ import (
 	"github.com/hyperledger/fabric/protos/gossip"
 	msprotos "github.com/hyperledger/fabric/protos/msp"
 	"github.com/hyperledger/fabric/protos/utils"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/onsi/gomega/gexec"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"

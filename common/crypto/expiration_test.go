@@ -7,7 +7,7 @@ SPDX-License-Identifier: Apache-2.0
 package crypto_test
 
 import (
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/pem"
 	"fmt"
 	"io/ioutil"
@@ -20,6 +20,8 @@ import (
 	"github.com/hyperledger/fabric/common/crypto/tlsgen"
 	"github.com/hyperledger/fabric/protos/msp"
 	"github.com/hyperledger/fabric/protos/utils"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -70,7 +72,8 @@ func TestInvalidIdentityExpiresAt(t *testing.T) {
 }
 
 func TestTrackExpiration(t *testing.T) {
-	ca, err := tlsgen.NewCA()
+	useGm := true
+	ca, err := tlsgen.NewCA(useGm)
 	assert.NoError(t, err)
 
 	now := time.Now()
@@ -86,7 +89,7 @@ func TestTrackExpiration(t *testing.T) {
 	monthBeforeExpiration := now.Add(timeUntilOneMonthBeforeExpiration)
 	twoDaysBeforeExpiration := now.Add(timeUntil2DaysBeforeExpiration)
 
-	tlsCert, err := ca.NewServerCertKeyPair("127.0.0.1")
+	tlsCert, err := ca.NewServerCertKeyPair("127.0.0.1", useGm)
 	assert.NoError(t, err)
 
 	signingIdentity := utils.MarshalOrPanic(&msp.SerializedIdentity{

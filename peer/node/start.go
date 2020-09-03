@@ -549,7 +549,9 @@ func createChaincodeServer(ca tlsgen.CA, peerHostname string) (srv *comm.GRPCSer
 	// Override TLS configuration if TLS is applicable
 	if config.SecOpts.UseTLS {
 		// Create a self-signed TLS certificate with a SAN that matches the computed chaincode endpoint
-		certKeyPair, err := ca.NewServerCertKeyPair(host)
+		//TODO: 兼容
+		useGm := false
+		certKeyPair, err := ca.NewServerCertKeyPair(host, useGm)
 		if err != nil {
 			logger.Panicf("Failed generating TLS certificate for chaincode service: +%v", err)
 		}
@@ -770,7 +772,9 @@ func startChaincodeServer(
 	}
 
 	// Create a self-signed CA for chaincode service
-	ca, err := tlsgen.NewCA()
+	//TODO: 兼容
+	useGm := false
+	ca, err := tlsgen.NewCA(useGm)
 	if err != nil {
 		logger.Panic("Failed creating authentication layer:", err)
 	}

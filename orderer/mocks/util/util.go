@@ -9,10 +9,12 @@ package util
 import (
 	"crypto/rand"
 	"crypto/rsa"
-	"crypto/x509"
+	//"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/pem"
 	"math/big"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 )
 
 // GenerateMockPublicPrivateKeyPairPEM returns public/private key pair encoded

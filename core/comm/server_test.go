@@ -753,16 +753,17 @@ func TestNewSecureGRPCServer(t *testing.T) {
 func TestVerifyCertificateCallback(t *testing.T) {
 	t.Parallel()
 
-	ca, err := tlsgen.NewCA()
+	useGm := true
+	ca, err := tlsgen.NewCA(useGm)
 	assert.NoError(t, err)
 
-	authorizedClientKeyPair, err := ca.NewClientCertKeyPair()
+	authorizedClientKeyPair, err := ca.NewClientCertKeyPair(useGm)
 	assert.NoError(t, err)
 
-	notAuthorizedClientKeyPair, err := ca.NewClientCertKeyPair()
+	notAuthorizedClientKeyPair, err := ca.NewClientCertKeyPair(useGm)
 	assert.NoError(t, err)
 
-	serverKeyPair, err := ca.NewServerCertKeyPair("127.0.0.1")
+	serverKeyPair, err := ca.NewServerCertKeyPair("127.0.0.1", useGm)
 	assert.NoError(t, err)
 
 	verifyFunc := func(rawCerts [][]byte, verifiedChains [][]*x509.Certificate) error {

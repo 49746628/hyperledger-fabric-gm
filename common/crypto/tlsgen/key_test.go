@@ -7,16 +7,20 @@ SPDX-License-Identifier: Apache-2.0
 package tlsgen
 
 import (
-	"crypto/tls"
-	"crypto/x509"
+	//"crypto/tls"
+	//"crypto/x509"
 	"encoding/pem"
 	"testing"
 
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestCertEncoding(t *testing.T) {
-	pair, err := newCertKeyPair(false, false, "", nil, nil)
+	useGm := true
+
+	pair, err := newCertKeyPair(false, false, "", nil, nil, useGm)
 	assert.NoError(t, err)
 	assert.NotNil(t, pair)
 	assert.NotEmpty(t, pair.PrivKeyString())
@@ -27,7 +31,9 @@ func TestCertEncoding(t *testing.T) {
 }
 
 func TestLoadCert(t *testing.T) {
-	pair, err := newCertKeyPair(false, false, "", nil, nil)
+	useGm := true
+
+	pair, err := newCertKeyPair(false, false, "", nil, nil, useGm)
 	assert.NoError(t, err)
 	assert.NotNil(t, pair)
 	tlsCertPair, err := tls.X509KeyPair(pair.Cert, pair.Key)

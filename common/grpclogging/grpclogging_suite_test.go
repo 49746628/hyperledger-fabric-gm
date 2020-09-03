@@ -11,8 +11,8 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
-	"crypto/tls"
-	"crypto/x509"
+	//"crypto/tls"
+	//"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/pem"
 	"math/big"
@@ -21,6 +21,9 @@ import (
 	"time"
 
 	"github.com/hyperledger/fabric/common/grpclogging/testpb"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

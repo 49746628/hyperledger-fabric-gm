@@ -7,12 +7,14 @@ SPDX-License-Identifier: Apache-2.0
 package middleware_test
 
 import (
-	"crypto/x509"
+	//"crypto/x509"
 	"net/http"
 	"net/http/httptest"
 
 	"github.com/hyperledger/fabric/core/middleware"
 	"github.com/hyperledger/fabric/core/middleware/fakes"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

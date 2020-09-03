@@ -7,7 +7,6 @@ package csp
 
 import (
 	"crypto"
-	//"crypto/ecdsa"
 	//"crypto/x509"
 	"encoding/pem"
 	"io/ioutil"
@@ -18,9 +17,9 @@ import (
 	"github.com/hyperledger/fabric/bccsp"
 	"github.com/hyperledger/fabric/bccsp/factory"
 	"github.com/hyperledger/fabric/bccsp/signer"
-	"github.com/pkg/errors"
 
 	"github.com/Hyperledger-TWGC/ccs-gm/x509"
+	"github.com/pkg/errors"
 )
 
 // LoadPrivateKey loads a private key from file in keystorePath
@@ -99,6 +98,11 @@ func GeneratePrivateKey(keystorePath string, useGm bool) (bccsp.Key,
 			},
 		},
 	}
+	//国密软算法使用SM3摘要
+	if useGm {
+		opts.SwOpts.HashFamily = "SM3"
+	}
+
 	csp, err := factory.GetBCCSPFromOpts(opts)
 	if err == nil {
 		// generate a key
@@ -116,7 +120,6 @@ func GeneratePrivateKey(keystorePath string, useGm bool) (bccsp.Key,
 }
 
 func GetPublicKey(priv bccsp.Key) (interface{}, error) {
-
 	// get the public key
 	pubKey, err := priv.PublicKey()
 	if err != nil {

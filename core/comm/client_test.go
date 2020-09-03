@@ -26,8 +26,8 @@ import (
 	"github.com/hyperledger/fabric/core/comm"
 	testpb "github.com/hyperledger/fabric/core/comm/testdata/grpc"
 
-	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
@@ -573,16 +573,17 @@ func loadCerts(t *testing.T) testCerts {
 
 func TestDynamicClientTLSLoading(t *testing.T) {
 	t.Parallel()
-	ca1, err := tlsgen.NewCA()
+	useGm := true
+	ca1, err := tlsgen.NewCA(useGm)
 	assert.NoError(t, err)
 
-	ca2, err := tlsgen.NewCA()
+	ca2, err := tlsgen.NewCA(useGm)
 	assert.NoError(t, err)
 
-	clientKP, err := ca1.NewClientCertKeyPair()
+	clientKP, err := ca1.NewClientCertKeyPair(useGm)
 	assert.NoError(t, err)
 
-	serverKP, err := ca2.NewServerCertKeyPair("127.0.0.1")
+	serverKP, err := ca2.NewServerCertKeyPair("127.0.0.1", useGm)
 	assert.NoError(t, err)
 
 	client, err := comm.NewGRPCClient(comm.ClientConfig{

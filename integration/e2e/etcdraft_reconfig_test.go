@@ -10,7 +10,7 @@ import (
 	"bytes"
 	"crypto/ecdsa"
 	"crypto/rand"
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/pem"
 	"fmt"
 	"io/ioutil"
@@ -29,6 +29,8 @@ import (
 	"github.com/hyperledger/fabric/protos/msp"
 	"github.com/hyperledger/fabric/protos/orderer/etcdraft"
 	"github.com/hyperledger/fabric/protos/utils"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/gbytes"

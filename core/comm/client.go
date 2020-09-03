@@ -9,14 +9,13 @@ package comm
 import (
 	"context"
 	"encoding/pem"
-	"github.com/Hyperledger-TWGC/ccs-gm/sm2"
-
 	//"crypto/tls"
 	//"crypto/x509"
 	"time"
 
-	"github.com/Hyperledger-TWGC/ccs-gm/x509"
+	"github.com/Hyperledger-TWGC/ccs-gm/sm2"
 	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/keepalive"
@@ -93,7 +92,7 @@ func (client *GRPCClient) parseSecureOptions(opts *SecureOptions) error {
 			}
 		}
 
-		// add by suyunlong, client support GMT0024
+		// support gm
 		block, _ := pem.Decode(opts.ServerRootCAs[0])
 		if block != nil {
 			caCert, err := x509.ParseCertificate(block.Bytes)

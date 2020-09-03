@@ -378,6 +378,8 @@ func AEStoEncryptedPEM(raw []byte, pwd []byte) ([]byte, error) {
 	return pem.EncodeToMemory(block), nil
 }
 
+//TODO: 添加SM4密钥格式转换函数
+
 // PublicKeyToPEM marshals a public key to the pem format
 func PublicKeyToPEM(publicKey interface{}, pwd []byte) ([]byte, error) {
 	if len(pwd) != 0 {

@@ -9,7 +9,7 @@ package cluster_test
 import (
 	"context"
 	"crypto/rand"
-	"crypto/x509"
+	//"crypto/x509"
 	"fmt"
 	"net"
 	"strings"
@@ -29,6 +29,8 @@ import (
 	"github.com/hyperledger/fabric/orderer/common/cluster/mocks"
 	"github.com/hyperledger/fabric/protos/common"
 	"github.com/hyperledger/fabric/protos/orderer"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/onsi/gomega"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"

@@ -11,7 +11,7 @@ import (
 	"io"
 	"time"
 
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/pem"
 
 	"github.com/golang/protobuf/proto"
@@ -27,6 +27,8 @@ import (
 	"github.com/hyperledger/fabric/protos/msp"
 	ab "github.com/hyperledger/fabric/protos/orderer"
 	"github.com/hyperledger/fabric/protos/utils"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"

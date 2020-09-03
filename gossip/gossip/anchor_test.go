@@ -8,7 +8,7 @@ package gossip
 
 import (
 	"context"
-	"crypto/tls"
+	//"crypto/tls"
 	"fmt"
 	"io"
 	"sync"
@@ -22,6 +22,8 @@ import (
 	"github.com/hyperledger/fabric/gossip/common"
 	utilgossip "github.com/hyperledger/fabric/gossip/util"
 	proto "github.com/hyperledger/fabric/protos/gossip"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
 )

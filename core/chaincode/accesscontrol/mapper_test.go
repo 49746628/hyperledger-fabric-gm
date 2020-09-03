@@ -17,7 +17,8 @@ import (
 )
 
 func TestPurge(t *testing.T) {
-	ca, _ := tlsgen.NewCA()
+	useGm := true
+	ca, _ := tlsgen.NewCA(useGm)
 	backupTTL := ttl
 	defer func() {
 		ttl = backupTTL

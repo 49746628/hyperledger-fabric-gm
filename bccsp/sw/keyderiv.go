@@ -250,3 +250,34 @@ func (kd *sm2PrivateKeyKeyDeriver) KeyDeriv(k bccsp.Key, opts bccsp.KeyDerivOpts
 		return nil, fmt.Errorf("Unsupported 'KeyDerivOpts' provided [%v]", opts)
 	}
 }
+
+type sm4PrivateKeyKeyDeriver struct {
+	conf *config
+}
+
+func (kd *sm4PrivateKeyKeyDeriver) KeyDeriv(k bccsp.Key, opts bccsp.KeyDerivOpts) (bccsp.Key, error) {
+	// Validate opts
+	if opts == nil {
+		return nil, errors.New("Invalid opts parameter. It must not be nil.")
+	}
+
+	sm4K := k.(*sm4PrivateKey)
+
+	switch opts.(type) {
+	case *bccsp.HMACTruncated256AESDeriveKeyOpts:
+		hmacOpts := opts.(*bccsp.HMACTruncated256AESDeriveKeyOpts)
+
+		mac := hmac.New(kd.conf.hashFunction, sm4K.privKey)
+		mac.Write(hmacOpts.Argument())
+		return &aesPrivateKey{mac.Sum(nil)[:kd.conf.aesBitLength], false}, nil
+
+	case *bccsp.HMACDeriveKeyOpts:
+		hmacOpts := opts.(*bccsp.HMACDeriveKeyOpts)
+
+		mac := hmac.New(kd.conf.hashFunction, sm4K.privKey)
+		mac.Write(hmacOpts.Argument())
+		return &aesPrivateKey{mac.Sum(nil), true}, nil
+	default:
+		return nil, fmt.Errorf("Unsupported 'KeyDerivOpts' provided [%v]", opts)
+	}
+}

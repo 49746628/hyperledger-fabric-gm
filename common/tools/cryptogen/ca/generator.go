@@ -219,8 +219,8 @@ func genCertificate(baseDir, name string, template, parent *x509.Certificate, pu
 	return x509Cert, nil
 }
 
-// LoadCertificateECDSA load a ecdsa cert from a file in cert path
-func LoadCertificateECDSA(certPath string) (*x509.Certificate, error) {
+// LoadCertificate load a cert from a file in cert path
+func LoadCertificate(certPath string) (*x509.Certificate, error) {
 	var cert *x509.Certificate
 	var err error
 

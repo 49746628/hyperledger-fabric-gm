@@ -56,9 +56,11 @@ func (c *Client) NewDialer(endpoint string) func() (*grpc.ClientConn, error) {
 }
 
 func newSelfSignedTLSCert() (*tlsgen.CertKeyPair, error) {
-	ca, err := tlsgen.NewCA()
+	//TODO: 兼容
+	useGm := true
+	ca, err := tlsgen.NewCA(useGm)
 	if err != nil {
 		return nil, err
 	}
-	return ca.NewClientCertKeyPair()
+	return ca.NewClientCertKeyPair(useGm)
 }

@@ -29,7 +29,10 @@ import (
 var ca = createCAOrPanic()
 
 func createCAOrPanic() tlsgen.CA {
-	ca, err := tlsgen.NewCA()
+	//TODO: 如何兼容
+	useGm := true
+
+	ca, err := tlsgen.NewCA(useGm)
 	if err != nil {
 		panic(fmt.Sprintf("failed creating CA: %+v", err))
 	}
@@ -39,12 +42,14 @@ func createCAOrPanic() tlsgen.CA {
 // CreateGRPCLayer returns a new gRPC server with associated port, TLS certificates, SecureDialOpts and DialOption
 func CreateGRPCLayer() (port int, gRPCServer *comm.GRPCServer, certs *common.TLSCertificates,
 	secureDialOpts api.PeerSecureDialOpts, dialOpts []grpc.DialOption) {
+	//TODO: 如何兼容
+	useGm := true
 
-	serverKeyPair, err := ca.NewServerCertKeyPair("127.0.0.1")
+	serverKeyPair, err := ca.NewServerCertKeyPair("127.0.0.1", useGm)
 	if err != nil {
 		panic(err)
 	}
-	clientKeyPair, err := ca.NewClientCertKeyPair()
+	clientKeyPair, err := ca.NewClientCertKeyPair(useGm)
 	if err != nil {
 		panic(err)
 	}

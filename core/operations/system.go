@@ -8,7 +8,7 @@ package operations
 
 import (
 	"context"
-	"crypto/tls"
+	//"crypto/tls"
 	"net"
 	"net/http"
 	"os"
@@ -27,6 +27,8 @@ import (
 	"github.com/hyperledger/fabric/common/metrics/statsd/goruntime"
 	"github.com/hyperledger/fabric/common/util"
 	"github.com/hyperledger/fabric/core/middleware"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 

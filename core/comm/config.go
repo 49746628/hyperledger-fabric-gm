@@ -14,8 +14,8 @@ import (
 	"github.com/hyperledger/fabric/common/flogging"
 	"github.com/hyperledger/fabric/common/metrics"
 
-	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/keepalive"
 )

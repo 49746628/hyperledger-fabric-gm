@@ -13,7 +13,7 @@ package main
 
 import (
 	"crypto/ecdsa"
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/pem"
 	"fmt"
 	"io/ioutil"
@@ -25,6 +25,8 @@ import (
 	"github.com/hyperledger/fabric/common/tools/idemixgen/metadata"
 	"github.com/hyperledger/fabric/idemix"
 	"github.com/hyperledger/fabric/msp"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/pkg/errors"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
@@ -150,7 +152,7 @@ func readRevocationKey() *ecdsa.PrivateKey {
 	key, err := x509.ParseECPrivateKey(block.Bytes)
 	handleError(err)
 
-	return key
+	return key.(*ecdsa.PrivateKey)
 }
 
 // checkDirectoryNotExists checks whether a directory with the given path already exists and exits if this is the case
