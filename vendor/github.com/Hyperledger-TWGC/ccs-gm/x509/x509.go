@@ -240,7 +240,7 @@ var algoName = [...]string{
 	ECDSAWithSHA256:  "ECDSA-SHA256",
 	ECDSAWithSHA384:  "ECDSA-SHA384",
 	ECDSAWithSHA512:  "ECDSA-SHA512",
-	SM2WithSM3:       "SM2-tjSM3",
+	SM2WithSM3:       "SM2-SM3",
 	SM2WithSHA1:      "SM2-SHA1",
 	SM2WithSHA256:    "SM2-SHA256",
 }
@@ -509,6 +509,8 @@ func getPublicKeyAlgorithmFromOID(oid asn1.ObjectIdentifier) PublicKeyAlgorithm 
 		return DSA
 	case oid.Equal(oidPublicKeyECDSA):
 		return ECDSA
+	case oid.Equal(oidPublicKeySM2):
+		return SM2
 	}
 	return UnknownPublicKeyAlgorithm
 }
@@ -880,7 +882,7 @@ func checkSignature(algo SignatureAlgorithm, signed, signature []byte, publicKey
 
 	switch algo {
 	case SM2WithSM3:
-		//Do nothing here, just in case not go into default
+		hashType = SM3
 	case SHA1WithRSA, DSAWithSHA1, ECDSAWithSHA1, SM2WithSHA1:
 		hashType = crypto.SHA1
 	case SHA256WithRSA, SHA256WithRSAPSS, DSAWithSHA256, ECDSAWithSHA256, SM2WithSHA256:
@@ -896,7 +898,7 @@ func checkSignature(algo SignatureAlgorithm, signed, signature []byte, publicKey
 	}
 
 	var h hash.Hash
-	if algo == SM2WithSM3 {
+	if hashType == SM3 {
 		h = sm3.New()
 	} else {
 		if !hashType.Available() {
@@ -1771,15 +1773,18 @@ func signingParamsForPublicKey(pub interface{}, requestedSigAlgo SignatureAlgori
 	switch pub := pub.(type) {
 	case *sm2.PublicKey:
 		pubType = SM2
-		switch pub.Curve {
-		case sm2.P256():
-			//hashFunc = tjSM3
-			hashFunc = 255
+		switch requestedSigAlgo {
+		case SM2WithSM3:
+			hashFunc = SM3
 			sigAlgo.Algorithm = oidSignatureSM2WithSM3
-			//hashFunc = crypto.SHA256
-			//sigAlgo.Algorithm = oidSignatureSM2WithSHA256
+		case SM2WithSHA256:
+			hashFunc = crypto.SHA256
+			sigAlgo.Algorithm = oidSignatureSM2WithSHA256
+		case SM2WithSHA1:
+			hashFunc = crypto.SHA1
+			sigAlgo.Algorithm = oidSignatureSM2WithSHA1
 		default:
-			err = errors.New("x509: SM2 unknown elliptic curve")
+			err = errors.New("x509: SM2 invalid signature algorithm")
 		}
 	case *rsa.PublicKey:
 		pubType = RSA
@@ -1922,7 +1927,7 @@ func CreateCertificate(rand io.Reader, template, parent *Certificate, pub, priv 
 	c.Raw = tbsCertContents
 
 	var h hash.Hash
-	if hashFunc == 255 {
+	if hashFunc == SM3 {
 		h = sm3.New()
 	} else {
 		h = hashFunc.New()
@@ -2039,13 +2044,18 @@ func (c *Certificate) CreateCRL(rand io.Reader, priv interface{}, revokedCerts [
 		return
 	}
 
-	h := hashFunc.New()
+	var h hash.Hash
+	if hashFunc == SM3 {
+		h = sm3.New()
+	} else {
+		h = hashFunc.New()
+	}
 	h.Write(tbsCertListContents)
 	digest := h.Sum(nil)
 
 	var signature []byte
-	switch key.(type) {
-	case *sm2.PrivateKey:
+	switch key.Public().(type) {
+	case *sm2.PublicKey:
 		signature, err = key.Sign(rand, tbsCertListContents, hashFunc)
 		if err != nil {
 			return
@@ -2327,14 +2337,19 @@ func CreateCertificateRequest(rand io.Reader, template *CertificateRequest, priv
 	tbsCSR.Raw = tbsCSRContents
 
 	var signature []byte
-	switch key.(type) {
-	case *sm2.PrivateKey:
+	switch key.Public().(type) {
+	case *sm2.PublicKey:
 		signature, err = key.Sign(rand, tbsCSRContents, hashFunc)
 		if err != nil {
 			return
 		}
 	default:
-		h := hashFunc.New()
+		var h hash.Hash
+		if hashFunc == SM3 {
+			h = sm3.New()
+		} else {
+			h = hashFunc.New()
+		}
 		h.Write(tbsCSRContents)
 		digest := h.Sum(nil)
 		signature, err = key.Sign(rand, digest, hashFunc)
@@ -2382,6 +2397,12 @@ func parseCertificateRequest(in *certificateRequest) (*CertificateRequest, error
 
 		Version:    in.TBSCSR.Version,
 		Attributes: parseRawAttributes(in.TBSCSR.RawAttributes),
+	}
+
+	//sm2与ecdsa公钥OID一样，再通过判断公钥椭圆曲线比较判断
+	params, _ := asn1.Marshal(oidNamedCurveP256SM2)
+	if out.PublicKeyAlgorithm == ECDSA && reflect.DeepEqual(params, in.TBSCSR.PublicKey.Algorithm.Parameters.FullBytes) {
+		out.PublicKeyAlgorithm = SM2
 	}
 
 	var err error
