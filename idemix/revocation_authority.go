@@ -17,6 +17,8 @@ import (
 	"github.com/hyperledger/fabric-amcl/amcl/FP256BN"
 	"github.com/hyperledger/fabric/bccsp/utils"
 	"github.com/pkg/errors"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/sm2"
 )
 
 type RevocationAlgorithm int32
@@ -38,7 +40,7 @@ func GenerateLongTermRevocationKey() (*ecdsa.PrivateKey, error) {
 // Users can use the CRI to prove that they are not revoked.
 // Note that when not using revocation (i.e., alg = ALG_NO_REVOCATION), the entered unrevokedHandles are not used,
 // and the resulting CRI can be used by any signer.
-func CreateCRI(key *ecdsa.PrivateKey, unrevokedHandles []*FP256BN.BIG, epoch int, alg RevocationAlgorithm, rng *amcl.RAND) (*CredentialRevocationInformation, error) {
+func CreateCRI(key interface{}, unrevokedHandles []*FP256BN.BIG, epoch int, alg RevocationAlgorithm, rng *amcl.RAND) (*CredentialRevocationInformation, error) {
 	if key == nil || rng == nil {
 		return nil, errors.Errorf("CreateCRI received nil input")
 	}
@@ -63,7 +65,12 @@ func CreateCRI(key *ecdsa.PrivateKey, unrevokedHandles []*FP256BN.BIG, epoch int
 
 	digest := sha256.Sum256(bytesToSign)
 
-	cri.EpochPkSig, err = key.Sign(rand.Reader, digest[:], nil)
+	switch key.(type) {
+	case *ecdsa.PrivateKey:
+		cri.EpochPkSig, err = key.(*ecdsa.PrivateKey).Sign(rand.Reader, digest[:], nil)
+	case *sm2.PrivateKey:
+		cri.EpochPkSig, err = key.(*sm2.PrivateKey).Sign(rand.Reader, digest[:], nil)
+	}
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +87,7 @@ func CreateCRI(key *ecdsa.PrivateKey, unrevokedHandles []*FP256BN.BIG, epoch int
 // Note that even if we use no revocation (i.e., alg = ALG_NO_REVOCATION), we need
 // to verify the signature to make sure the issuer indeed signed that no revocation
 // is used in this epoch.
-func VerifyEpochPK(pk *ecdsa.PublicKey, epochPK *ECP2, epochPkSig []byte, epoch int, alg RevocationAlgorithm) error {
+func VerifyEpochPK(pk interface{}, epochPK *ECP2, epochPkSig []byte, epoch int, alg RevocationAlgorithm) error {
 	if pk == nil || epochPK == nil {
 		return errors.Errorf("EpochPK invalid: received nil input")
 	}
@@ -99,9 +106,20 @@ func VerifyEpochPK(pk *ecdsa.PublicKey, epochPK *ECP2, epochPkSig []byte, epoch 
 		return errors.Wrap(err, "failed to unmarshal ECDSA signature")
 	}
 
-	if !ecdsa.Verify(pk, digest[:], r, s) {
-		return errors.Errorf("EpochPKSig invalid")
+	switch pk.(type) {
+	case *ecdsa.PublicKey:
+		if !ecdsa.Verify(pk.(*ecdsa.PublicKey), digest[:], r, s) {
+			return errors.Errorf("EpochPKSig invalid")
+		}
+	case *sm2.PublicKey:
+		if !sm2.Verify(pk.(*sm2.PublicKey), digest[:], r, s) {
+			return errors.Errorf("EpochPKSig invalid")
+		}
+	default:
+		return errors.Errorf("key type not support")
 	}
+	
+
 
 	return nil
 }

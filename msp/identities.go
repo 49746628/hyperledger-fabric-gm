@@ -20,6 +20,7 @@ import (
 	"github.com/hyperledger/fabric/common/flogging"
 	"github.com/hyperledger/fabric/protos/msp"
 
+	"github.com/Hyperledger-TWGC/ccs-gm/sm2"
 	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"github.com/pkg/errors"
 	"go.uber.org/zap/zapcore"
@@ -164,9 +165,21 @@ func (id *identity) Verify(msg []byte, sig []byte) error {
 		return errors.WithMessage(err, "failed getting hash function options")
 	}
 
-	digest, err := id.msp.bccsp.Hash(msg, hashOpt)
-	if err != nil {
-		return errors.WithMessage(err, "failed computing digest")
+	//digest, err := id.msp.bccsp.Hash(msg, hashOpt)
+	//if err != nil {
+	//	return errors.WithMessage(err, "failed computing digest")
+	//}
+	
+	var digest []byte
+	switch id.cert.PublicKey.(type) {
+	case *sm2.PublicKey:
+		digest = msg
+		break
+	default:
+		digest, err = id.msp.bccsp.Hash(msg, hashOpt)
+		if err != nil {
+			return errors.WithMessage(err, "failed computing digest")
+		}
 	}
 
 	if mspIdentityLogger.IsEnabledFor(zapcore.DebugLevel) {
@@ -241,11 +254,22 @@ func (id *signingidentity) Sign(msg []byte) ([]byte, error) {
 		return nil, errors.WithMessage(err, "failed getting hash function options")
 	}
 
-	digest, err := id.msp.bccsp.Hash(msg, hashOpt)
-	if err != nil {
-		return nil, errors.WithMessage(err, "failed computing digest")
+	//digest, err := id.msp.bccsp.Hash(msg, hashOpt)
+	//if err != nil {
+	//	return nil, errors.WithMessage(err, "failed computing digest")
+	//}
+	
+	var digest []byte
+	switch id.cert.PublicKey.(type) {
+	case *sm2.PublicKey:
+		digest = msg
+		break
+	default:
+		digest, err = id.msp.bccsp.Hash(msg, hashOpt)
+		if err != nil {
+			return nil, errors.WithMessage(err, "failed computing digest")
+		}
 	}
-
 	if len(msg) < 32 {
 		mspIdentityLogger.Debugf("Sign: plaintext: %X \n", msg)
 	} else {

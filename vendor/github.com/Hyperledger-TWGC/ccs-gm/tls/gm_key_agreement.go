@@ -356,9 +356,26 @@ func (ka *eccKeyAgreementGM) processClientKeyExchange(config *Config, cert *Cert
 		return nil, errors.New("tls: certificate private key does not implement crypto.Decrypter")
 	}
 	//plain, err := cert.EncipherPrivateKey.Decrypt(config.rand(), cipher, nil)
-	plain, err := priv.Decrypt(config.rand(), cipher, nil)
-	if err != nil {
-		return nil, err
+	//plain, err := priv.Decrypt(config.rand(), cipher, nil)
+	//if err != nil {
+	//	return nil, err
+	//}
+
+	//try to decode asn1 format cipher
+	var cv sm2.Sm2CiphertextValue
+	var plain []byte
+	if _, err := asn1.Unmarshal(cipher, &cv); err != nil {
+		plain, err = priv.Decrypt(config.rand(), cipher, nil)
+		if err != nil{
+			return nil, err
+		}
+	}else {
+		//asn1 format
+		newCipher := cv.ToC1C2C3();
+		plain, err = priv.Decrypt(config.rand(), newCipher, nil)
+		if err != nil {
+			return nil, err
+		}
 	}
 	if len(plain) != 48 {
 		return nil, errClientKeyExchange

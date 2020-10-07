@@ -1784,7 +1784,9 @@ func signingParamsForPublicKey(pub interface{}, requestedSigAlgo SignatureAlgori
 			hashFunc = crypto.SHA1
 			sigAlgo.Algorithm = oidSignatureSM2WithSHA1
 		default:
-			err = errors.New("x509: SM2 invalid signature algorithm")
+			//err = errors.New("x509: SM2 invalid signature algorithm")
+			hashFunc = SM3
+			sigAlgo.Algorithm = oidSignatureSM2WithSM3
 		}
 	case *rsa.PublicKey:
 		pubType = RSA

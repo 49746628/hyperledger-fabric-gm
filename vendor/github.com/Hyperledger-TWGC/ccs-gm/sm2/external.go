@@ -25,6 +25,23 @@ type sm2Signature struct {
 	R, S *big.Int
 }
 
+//C1||C3||C2
+type Sm2CiphertextValue struct {
+	X       *big.Int
+	Y       *big.Int
+	Hash	[]byte
+	Cipher	[]byte
+}
+
+func (cv *Sm2CiphertextValue) ToC1C2C3() (cipher []byte){
+	c1 := pointToBytes(cv.X, cv.Y)
+
+	cipher = append(c1, cv.Cipher...)
+	cipher = append(cipher, cv.Hash...)
+
+	return
+}
+
 func (priv *PrivateKey) Sign(rand io.Reader, msg []byte, opt crypto.SignerOpts) ([]byte, error) {
 	r, s, err := Sign(rand, priv, msg)
 	if err != nil {
